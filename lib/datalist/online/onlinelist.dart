@@ -9,22 +9,26 @@ class OnlineCurrencyRates implements CurrencyRates {
 
   @override
   Future<List<GbpCurrency>> getRates(String query) async {
-    final gbRates = await _getLatestGBConversionRates(query);
-    final currencies = await _getLatestCurrencies(query);
+    final gbRates = await _getLatestGBConversionRates();
+    final currencies = await _getLatestCurrencies();
     List<GbpCurrency> rates = [];
     gbRates.forEach((key, value) => {
           rates.add(
             GbpCurrency(
               currency: currencies[key],
-              currencyCode: key.toUpperCase(),
+              currencyCode: key,
               amount: value.toDouble(),
             ),
           )
         });
-    return Future.value(rates);
+    return Future.value(rates
+        .where((rate) =>
+            rate.currencyCode.toLowerCase().contains(query.toLowerCase()) ||
+            rate.currency.toLowerCase().contains(query.toLowerCase()))
+        .toList());
   }
 
-  Future<Map<String, dynamic>> _getLatestGBConversionRates(String query) async {
+  Future<Map<String, dynamic>> _getLatestGBConversionRates() async {
     final url = Uri.https('cdn.jsdelivr.net',
         '/gh/fawazahmed0/currency-api@1/latest/currencies/gbp.json');
     final response = await _apiClient.get(
@@ -40,7 +44,7 @@ class OnlineCurrencyRates implements CurrencyRates {
     return jsonDecode(response.body)["gbp"] ?? {};
   }
 
-  Future<Map<String, dynamic>> _getLatestCurrencies(String query) async {
+  Future<Map<String, dynamic>> _getLatestCurrencies() async {
     final url = Uri.https('cdn.jsdelivr.net',
         '/gh/fawazahmed0/currency-api@1/latest/currencies.json');
     final response = await _apiClient.get(

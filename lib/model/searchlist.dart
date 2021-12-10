@@ -24,7 +24,9 @@ class _SearchWidgetState extends State<SearchWidget> {
     final styleActive = TextStyle(color: Colors.black);
     final styleHint = TextStyle(color: Colors.black54);
     final style = widget.text.isEmpty ? styleHint : styleActive;
-
+    if (mounted) {
+      controller.text = widget.text;
+    }
     return Container(
       height: 42,
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),

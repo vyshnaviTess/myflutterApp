@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         accentColor: Colors.blue,
       ),
-      home: const MyHomePage(title: 'NTTData'),
+      home: const MyHomePage(title: 'NTTData Rates'),
     );
   }
 }

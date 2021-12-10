@@ -10,6 +10,14 @@ class LocalMemoryRates implements LocalDataRates {
 
   @override
   Future<List<GbpCurrency>> getRates(String query) async {
+    if (query.isNotEmpty) {
+      final filteredRates = rates
+          .where((a) =>
+              a.currency.toLowerCase().contains(query.toLowerCase()) ||
+              a.currencyCode.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      return Future.value(filteredRates);
+    }
     return Future.value(rates);
   }
 

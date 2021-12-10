@@ -9,17 +9,15 @@ class GbpCurrency {
     required this.amount,
   });
 
-  // factory Book.fromJson(Map<String, dynamic> json) => Book(
-  //   id: json['id'],
-  //   author: json['author'],
-  //   title: json['title'],
-  //   urlImage: json['urlImage'],
-  // );
-  //
-  // Map<String, dynamic> toJson() => {
-  //   'id': id,
-  //   'title': title,
-  //   'author': author,
-  //   'urlImage': urlImage,
-  // };
+  factory GbpCurrency.fromJson(Map<String, dynamic> json) => GbpCurrency(
+        currency: json['currency'],
+        currencyCode: json['currencyCode'],
+        amount: json['amount'],
+      );
+
+  Map<String, dynamic> toJson() => {
+        'currency': currency,
+        'currencyCode': currencyCode,
+        'amount': amount,
+      };
 }
